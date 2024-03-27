@@ -22,3 +22,22 @@ To address these inconsistencies, we will execute the following sequence of task
 4. **Standardize Abbreviations:** Convert abbreviations in the SoldAsVacant column into their corresponding full forms. <br>
 5. **Data Deduplication:** Remove and eliminate duplicate values. <br>
 6. **Column Removal:** Delete any unused columns. <br>
+
+-------------------------------------------------------------------------------------------------------------------  
+<br>
+
+#### <ins>1. Reformat Data</ins> <br>
+
+The SaleDate column currently stores data in the DATETIME format. However, since sales hour information is not available to our us, converting this column to the DATE format will optimize storage efficiency and streamline subsequent data manipulation. The DATE format is sufficient for capturing the essential date information and simplifies querying processes.
+
+Let's look at how the SaleDate column looks before we reformat it, and how we would like it to look after reformating. We do this by writing the following query:
+
+```sql
+
+SELECT SaleDate, CONVERT(date, SaleDate) AS SaleDateConverted -- This is to show how we want our data to look like.
+FROM NashvilleHousing
+
+```
+
+Snipped of output:
+
