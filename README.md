@@ -43,7 +43,7 @@ Snipped of output:
 
 ![SaleDate column reformatting](https://github.com/K-Seaba/SQL-Projects/assets/83554164/2ba3a3b2-ad67-45bb-82b2-38ccb5928eec)
 
-To update the new format of the SaleDate column in our table, we execute the following query:
+To update the format of the SaleDate column in our table to the new format, we execute the following query:
 
 ```sql
 
