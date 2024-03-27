@@ -39,5 +39,32 @@ FROM NashvilleHousing
 
 ```
 
-Snipped of output:
+Snipped of output: 
 
+![SaleDate column reformatting](https://github.com/K-Seaba/SQL-Projects/assets/83554164/2ba3a3b2-ad67-45bb-82b2-38ccb5928eec)
+
+To update the new format of the SaleDate column in our table, we execute the following query:
+
+```sql
+
+ALTER TABLE Nashvillehousing
+ADD SaleDateConverted Date
+
+UPDATE NashvilleHousing
+SET SaleDateConverted = CONVERT(date, SaleDate)
+
+```
+
+In the above query, we added a new column into the dataset with the new format for the sale dates and named it SaleDateConverted.  <br>
+
+#### <ins>2. Impute Missing Values</ins> <br>
+
+#### <ins>3. Address Parsing</ins> <br>
+
+Here we will be separating the PropertyAddress and OwnerAddress columns into individual columns for address, city and state to make them easier for further analysis. We start with the PropertyAddress column which contains address and city information in one column and we want to separate them into two separate columns.
+
+#### <ins>4. Standardize Abbreviations</ins> <br>
+
+#### <ins>5. Data Deduplication</ins> <br>
+
+#### <ins>6. Column Removal</ins> <br>
