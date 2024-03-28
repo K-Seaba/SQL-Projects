@@ -85,18 +85,60 @@ ON N1.ParcelID = N2.ParcelID
 AND N1.[UniqueID ] <> N2.[UniqueID ]
 
 ```
+
+In the above query, we used a self join on the NashvilleHousing data to get the rows with the same ParcelID and different uniqueIDs. The UniqueID comparison ensures we only consider addresses from distinct rows, preventing the potential for duplicate assignments.
+
 Snipped of output: 
 
 ![Same ParcelID Same Adderess](https://github.com/K-Seaba/SQL-Projects/assets/83554164/da4e2f9d-358c-4ed9-bac7-99bdc531f955)
 
-As can be seen in the output above, properties with the same ParcelID have the same PropertyAddress. This is a consistent theme throughout our dataset and we can use this knowledge to populate the NULL cells in the PropertyAddress column. Let's look at the following query.
+As can be seen in the output above, properties with the same ParcelID have the same PropertyAddress. This is a consistent theme throughout our dataset and we can use this knowledge to populate the cells with NULL values in the PropertyAddress column. <br>
+
+Let's look at the following query.
 
 ```sql
 
-
+SELECT N1.ParcelID, N1.PropertyAddress, N2.ParcelID, N2.PropertyAddress, ISNULL(N1.PropertyAddress, N2.PropertyAddress) AS populate
+FROM NashvilleHousing AS N1
+JOIN NashvilleHousing AS N2
+ON N1.ParcelID = N2.ParcelID 
+AND N1.[UniqueID ] <> N2.[UniqueID ]
+WHERE N1.PropertyAddress IS NULL
 
 ```
+In the above query we demonstrate how we will be using the ISNULL function to populate null values in the PropertyAddress column. This is achieved by identifying records with matching ParcelID values but distinct UniqueID values. When a null value exists in the PropertyAddress of the first joined table (N1), the corresponding address from the second joined table (N2) is used to fill the vacancy.
 
+Snipped of output:
+
+![To populate](https://github.com/K-Seaba/SQL-Projects/assets/83554164/0f2408cc-698c-491e-8dd4-560b863f6282)
+
+Now that we have established a method to populate the NULL cells in the PropertyAddress column, we will now use it to update our dataset and eliminate the NULL cells. We use the following query:
+
+```sql
+
+UPDATE N1
+SET PropertyAddress = ISNULL(N1.PropertyAddress, N2.PropertyAddress)
+FROM NashvilleHousing AS N1
+JOIN NashvilleHousing AS N2
+ON N1.ParcelID = N2.ParcelID 
+AND N1.[UniqueID ] <> N2.[UniqueID ]
+WHERE N1.PropertyAddress IS NULL
+
+```
+In the query above, we use the UPDATE statement to impliment the ISNULL function and populate the PropertAddress column. fter this step, the PropertyAddress column has been populated and therre are no more NULL cells. We can see this by running the following query:
+
+```sql
+
+SELECT *
+FROM NashvilleHousing
+WHERE PropertyAddress IS NULL
+
+```
+Snipped of output:
+
+![No nulls](https://github.com/K-Seaba/SQL-Projects/assets/83554164/6cd38951-5a6b-495d-9df7-8393b2a0ae84)
+
+As we can see in the above output, there are no NULL cells left in the PropertyAddress column.
 
 #### <ins>3. Address Parsing</ins> <br>
 
