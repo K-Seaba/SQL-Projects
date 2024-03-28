@@ -106,7 +106,7 @@ AND N1.[UniqueID ] <> N2.[UniqueID ]
 WHERE N1.PropertyAddress IS NULL
 
 ```
-In the above query we demonstrate how we will be using the ISNULL function to populate null values in the PropertyAddress column. This is achieved by identifying records with matching ParcelID values but distinct UniqueID values. When a null value exists in the PropertyAddress of the first joined table (N1), the corresponding address from the second joined table (N2) is used to fill the vacancy.
+In the above query we demonstrate how we will be using the ISNULL function to populate null values in the PropertyAddress column. This is achieved by identifying records with matching ParcelID values but distinct UniqueID values. When a null value exists in the PropertyAddress of the first joined table (N1), the corresponding address from the second joined table (N2) is used to fill the vacancy (the column labelled 'populate' contains the same information as in the second table N2 and we use it to populate the first table N1).
 
 Snipped of output:
 
@@ -125,7 +125,7 @@ AND N1.[UniqueID ] <> N2.[UniqueID ]
 WHERE N1.PropertyAddress IS NULL
 
 ```
-In the query above, we use the UPDATE statement to impliment the ISNULL function and populate the PropertAddress column. fter this step, the PropertyAddress column has been populated and therre are no more NULL cells. We can see this by running the following query:
+In the query above, we use the UPDATE statement to impliment the ISNULL function and populate the PropertAddress column. After this step, the PropertyAddress column has been populated and there are no more NULL cells. We can see this by running the following query:
 
 ```sql
 
