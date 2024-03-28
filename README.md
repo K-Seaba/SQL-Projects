@@ -220,7 +220,7 @@ SET OwnerSplitAddress = PARSENAME(REPLACE(OwnerAddress,',','.'),3),
 	OwnerSplitState = PARSENAME(REPLACE(OwnerAddress,',','.'),1)
 
 ```
-As we did previously for the PropertyAddress, we used ALTER TABLE to add new columns for the address, city and state and used UPDATE to populate these new columns.
+Similar to what we did previously for the PropertyAddress, we used ALTER TABLE to add new columns for the address, city and state and used UPDATE to populate these new columns.
 
 #### <ins>4. Standardize Abbreviations</ins> <br>
 
