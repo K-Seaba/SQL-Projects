@@ -59,6 +59,45 @@ In the above query, we added a new column into the dataset with the new format f
 
 #### <ins>2. Impute Missing Values</ins> <br>
 
+In this step we'll be populating the cells with NULL values in the PropertyAddress column. This information is especially important considering that we are working with real estate data and knowing the address of a property in the market is very important and certainly more important than knowing the address of the property's owner, which may be different from the property adderess, i.e., not every owner of a property in the market lives in that property. <br>
+
+Firstly, let's look at all the properties with missing addresses. To do so, we write the following query: <br>
+
+```sql
+
+SELECT *
+FROM NashvilleHousing
+WHERE PropertyAddress IS NULL
+
+```
+Snipped of output: 
+
+![Property addresses with null values](https://github.com/K-Seaba/SQL-Projects/assets/83554164/234ce080-c15d-4aa6-94f7-16696801ed29)
+
+As seen in the above query output, there are 29 properties with missing addresses that we have to populate.  To do so, we need to have a closer look at the data. One key finding was that properties with the same ParcelID (with uniqueIDs not necessarily equal) had the same property address. This can be seen in the following query:
+
+```sql
+
+SELECT *
+FROM NashvilleHousing AS N1
+JOIN NashvilleHousing AS N2
+ON N1.ParcelID = N2.ParcelID 
+AND N1.[UniqueID ] <> N2.[UniqueID ]
+
+```
+Snipped of output: 
+
+![Same ParcelID Same Adderess](https://github.com/K-Seaba/SQL-Projects/assets/83554164/da4e2f9d-358c-4ed9-bac7-99bdc531f955)
+
+As can be seen in the output above, properties with the same ParcelID have the same PropertyAddress. This is a consistent theme throughout our dataset and we can use this knowledge to populate the NULL cells in the PropertyAddress column. Let's look at the following query.
+
+```sql
+
+
+
+```
+
+
 #### <ins>3. Address Parsing</ins> <br>
 
 Here we will be separating the PropertyAddress and OwnerAddress columns into individual columns for address, city and state to make them easier for further analysis. We start with the PropertyAddress column which contains address and city information in one column and we want to separate them into two separate columns.
