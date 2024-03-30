@@ -224,6 +224,65 @@ Similar to what we did previously for the PropertyAddress, we used ALTER TABLE t
 
 #### <ins>4. Standardize Abbreviations</ins> <br>
 
+In this next step we'll be addressing the inconsistent entries in the SoladAsVacant column. Lets's take a look at the distinct entries in the column. <br>
+
+```sql
+
+SELECT SoldAsVacant, COUNT(SoldAsVacant) AS 'Count'
+FROM NashvilleHousing
+GROUP BY SoldAsVacant
+
+```
+
+Snippet of output:<br>
+![Abbreviations](https://github.com/K-Seaba/SQL-Projects/assets/83554164/1b38b166-00e9-4164-a034-d05a78e20ef5)
+
+As we can see from the output above, there are inconsistencies in the way 'Yes' and 'No' are stored with the abbreviated forms 'Y' and 'N' appearing 52 and 399 times respectively. Our aim here is to convert these abbreviations into their full forms to maintain consistency and make it easier for analysis. <br>
+
+Let's take a look at the following query:<br>
+
+```sql
+
+SELECT SoldAsVacant, 
+CASE
+	WHEN SoldAsVacant = 'Y' THEN 'Yes'
+	WHEN SoldAsVacant = 'N' THEN 'No'
+	ELSE SoldAsVacant
+END AS 'Updated_SoldAsVacant'
+FROM NashvilleHousing
+
+```
+
+In the above query, we use the CASE statement to convert these abbreviations to their full form. Here we say that if the entry in a cell is stored in it's abbreviated form, then it should be converted and stored in it's full form and if it's not stored in it's abbreviated form, then it should remain in it's current form. After running this query, all the entries in the SoldAsVacant column will be stored as either 'Yes' or 'No' with none being abbreviated. <br>
+
+We use the following query to update our dataset and include these changes.<br>
+
+```sql
+
+UPDATE NashvilleHousing
+SET SoldAsVacant = CASE
+	WHEN SoldAsVacant = 'Y' THEN 'Yes'
+	WHEN SoldAsVacant = 'N' THEN 'No'
+	ELSE SoldAsVacant
+END
+
+```
+Now when we look at the distinct entries in the column, we can see that we have successfully included these changes.
+
+```sql
+
+SELECT SoldAsVacant, COUNT(SoldAsVacant) AS 'Count'
+FROM NashvilleHousing
+GROUP BY SoldAsVacant
+
+```
+
+Snippet of output:<br>
+![Abbreviation changes](https://github.com/K-Seaba/SQL-Projects/assets/83554164/ac19c8db-3247-4c16-b170-d1136f7344c9)
+
+
 #### <ins>5. Data Deduplication</ins> <br>
+
+In this step we'll be removing all the rows that appear more than once in our dataset. Now here, if a row has the same ParcelID, PropertyAddress, SalePrice, SaleDate and LegalReference, we'll classify it as a duplicate even if the uniqueIDs are diiferent.  
 
 #### <ins>6. Column Removal</ins> <br>
